@@ -23,7 +23,6 @@
             position: relative;
         }
         
-        /* Окно с каплями - теперь абсолютное позиционирование */
         .window-container {
             position: fixed;
             top: 0;
@@ -39,7 +38,6 @@
             pointer-events: none;
         }
         
-        /* Капли на окне */
         .window-drop {
             position: absolute;
             background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.8) 100%);
@@ -93,7 +91,6 @@
             }
         }
         
-        /* Контент поверх окна */
         .container {
             max-width: 900px;
             width: 100%;
@@ -214,6 +211,26 @@
             transform: translateY(-2px);
         }
         
+        .music-library-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .music-library-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #ff5252, #ff3838);
+        }
+        
         footer {
             margin-top: 40px;
             opacity: 0.7;
@@ -234,11 +251,15 @@
             .container {
                 margin: 20px 0;
             }
+            
+            .music-library-btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Окно с каплями - теперь на весь экран -->
     <div class="window-container" id="windowContainer"></div>
     
     <div class="container">
@@ -269,13 +290,17 @@
             <button class="copy-btn" onclick="copyScript()">Скопировать скрипт</button>
         </div>
         
+        <!-- Новая кнопка музыкальной библиотеки -->
+        <button class="music-library-btn" onclick="openMusicLibrary()">
+            🎵 Открыть музыкальную библиотеку
+        </button>
+        
         <footer>
             <p>SpotyBlox &copy; 2025. Наслаждайтесь музыкой в Roblox!</p>
         </footer>
     </div>
 
     <script>
-        // Анимация при наведении на изображение
         const albumArt = document.getElementById('albumArt');
         
         albumArt.addEventListener('mouseenter', () => {
@@ -288,7 +313,6 @@
             albumArt.style.boxShadow = '0 15px 25px rgba(0, 0, 0, 0.4)';
         });
         
-        // Функция копирования скрипта
         function copyScript() {
             const scriptCode = document.getElementById('script-code');
             const textArea = document.createElement('textarea');
@@ -307,7 +331,83 @@
             }, 2000);
         }
         
-        // Имитация изменения времени воспроизведения
+        // Функция открытия музыкальной библиотеки
+        function openMusicLibrary() {
+            const libraryWindow = window.open('', 'MusicLibrary', 'width=600,height=400,scrollbars=yes');
+            
+            libraryWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>SpotyBlox - Музыкальная библиотека</title>
+                    <style>
+                        body {
+                            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+                            color: white;
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            padding: 20px;
+                            margin: 0;
+                        }
+                        .library-container {
+                            max-width: 500px;
+                            margin: 0 auto;
+                        }
+                        h1 {
+                            text-align: center;
+                            color: white;
+                            margin-bottom: 30px;
+                            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                        }
+                        .song-item {
+                            background: rgba(255, 255, 255, 0.15);
+                            padding: 20px;
+                            margin: 15px 0;
+                            border-radius: 15px;
+                            border-left: 5px solid #ff3838;
+                            backdrop-filter: blur(10px);
+                        }
+                        .song-title {
+                            font-weight: bold;
+                            font-size: 1.3rem;
+                            margin-bottom: 5px;
+                        }
+                        .song-id {
+                            color: #ffeaa7;
+                            font-size: 1rem;
+                            margin-bottom: 10px;
+                        }
+                        .copy-btn {
+                            background: linear-gradient(135deg, #1db954, #0f8035);
+                            border: none;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 25px;
+                            cursor: pointer;
+                            font-weight: bold;
+                            transition: all 0.3s;
+                        }
+                        .copy-btn:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="library-container">
+                        <h1>🎵 Song Library</h1>
+                        <div class="song-item">
+                            <div class="song-title">rain tacos</div>
+                            <div class="song-id">ID: 142376088</div>
+                            <button class="copy-btn" onclick="navigator.clipboard.writeText('142376088')">Копировать ID</button>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            libraryWindow.document.close();
+        }
+        
         let currentTime = 0;
         setInterval(() => {
             if (currentTime < 100) {
@@ -319,7 +419,6 @@
             }
         }, 1000);
         
-        // Создание капель на окне
         function createWindowDrops() {
             const windowContainer = document.getElementById('windowContainer');
             const dropCount = 30;
@@ -342,7 +441,6 @@
             }
         }
         
-        // Запускаем капли при загрузке страницы
         createWindowDrops();
     </script>
 </body>
